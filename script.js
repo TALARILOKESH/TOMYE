@@ -46,7 +46,6 @@ async function processImage() {
         return;
     }
 
-    // Show preview
     const preview = document.getElementById("preview");
     preview.src = URL.createObjectURL(file);
 
@@ -69,17 +68,16 @@ async function processImage() {
             throw new Error("Server error");
         }
 
-        // Receive processed image
         const blob = await response.blob();
 
         const imageURL = URL.createObjectURL(blob);
 
+        // 🔎 DEBUG: open image in new tab
+        window.open(imageURL);
+
         const resultImage = document.getElementById("resultImage");
 
-        // IMPORTANT: force refresh image
-        resultImage.src = "";
         resultImage.src = imageURL;
-
         resultImage.style.display = "block";
 
         document.getElementById("result").innerText =
@@ -91,5 +89,6 @@ async function processImage() {
 
         document.getElementById("result").innerText =
             "Server Error ❌";
+
     }
 }
