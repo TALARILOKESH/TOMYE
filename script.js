@@ -34,6 +34,45 @@ window.onload = function () {
 
 
 // ============================
+// Resize Image in Browser
+// ============================
+function compressImage(file, maxSize = 640) {
+
+    return new Promise((resolve) => {
+
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+
+        img.onload = function () {
+
+            let width = img.width;
+            let height = img.height;
+
+            const scale = maxSize / Math.max(width, height);
+
+            if (scale < 1) {
+                width = width * scale;
+                height = height * scale;
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+                resolve(blob);
+            }, "image/jpeg", 0.85);
+        };
+
+        img.src = url;
+    });
+}
+
+
+// ============================
 // Process Image
 // ============================
 async function processImage() {
@@ -46,62 +85,27 @@ async function processImage() {
         return;
     }
 
-    // ============================
-    // FILE SIZE CHECK
-    // ============================
-    const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB
+    // File size warning
+    const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
     if (file.size > MAX_FILE_SIZE) {
-
         const proceed = confirm(
-            "⚠️ The uploaded image is large and may cause server memory issues.\n\nDo you want to continue?"
+            "⚠️ Large image detected. Continue?"
         );
-
-        if (!proceed) {
-            return;
-        }
+        if (!proceed) return;
     }
-
-    // ============================
-    // RESOLUTION CHECK
-    // ============================
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-
-    img.onload = async function () {
-
-        const width = img.width;
-        const height = img.height;
-
-        if (Math.max(width, height) > 3000) {
-
-            const proceed = confirm(
-                `⚠️ Image resolution is very high (${width} x ${height}).\n\nThis may exceed server memory.\n\nProceed anyway?`
-            );
-
-            if (!proceed) {
-                return;
-            }
-        }
-
-        sendImageToServer(file);
-    };
-
-    img.src = url;
-}
-
-
-// ============================
-// Send Image to Backend
-// ============================
-async function sendImageToServer(file) {
 
     const preview = document.getElementById("preview");
     preview.src = URL.createObjectURL(file);
     preview.style.display = "block";
 
+    document.getElementById("result").innerText = "Compressing image...";
+
+    // Compress to 640px
+    const compressedBlob = await compressImage(file, 640);
+
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", compressedBlob, "compressed.jpg");
 
     document.getElementById("result").innerText = "Processing...";
 
@@ -123,7 +127,6 @@ async function sendImageToServer(file) {
         const imageURL = URL.createObjectURL(blob);
 
         const resultImage = document.getElementById("resultImage");
-
         resultImage.src = imageURL;
         resultImage.style.display = "block";
 
@@ -136,6 +139,5 @@ async function sendImageToServer(file) {
 
         document.getElementById("result").innerText =
             "Server Error ❌";
-
     }
 }
