@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-    <title>Tomato Sorting System</title>
+<title>Tomato Sorting System</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-    <!-- TensorFlow -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 
 </head>
 
 <body>
 
-    <h1>🍅 Tomato Sorting System</h1>
+<h1>🍅 Tomato Sorting System</h1>
 
-    <!-- Upload Image -->
-    <input type="file" id="imageInput" accept="image/*">
+<input type="file" id="imageInput" accept="image/*">
 
-    <button onclick="processImage()">Analyze</button>
+<button onclick="processImage()">Analyze</button>
 
-    <br><br>
+<br><br>
 
-    <!-- Uploaded Image Preview -->
-    <img id="preview" width="300">
+<img id="preview" width="300" style="display:none;">
 
-    <br><br>
+<br><br>
 
-    <!-- Detection Status -->
-    <h3 id="result"></h3>
+<h3 id="result"></h3>
 
-    <!-- Processed Image with Bounding Boxes -->
-    <img id="resultImage" width="500" style="margin-top:20px;">
-    <img id="resultImage" width="500" style="display:none;">
+<img id="resultImage" width="500" style="display:none; margin-top:20px;">
 
-    <br><br>
+<br><br>
 
-    <!-- Classification Result -->
-    <h3 id="classificationResult"></h3>
+<h3 id="classificationResult"></h3>
 
-    <!-- Script -->
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
