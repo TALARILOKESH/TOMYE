@@ -123,6 +123,10 @@ async function processImage() {
             throw new Error("Server error");
         }
 
+        // 🔴 Get tomato counts from backend headers
+        const good = response.headers.get("X-Good-Tomatoes") || 0;
+        const bad = response.headers.get("X-Bad-Tomatoes") || 0;
+
         const blob = await response.blob();
         const imageURL = URL.createObjectURL(blob);
 
@@ -132,6 +136,10 @@ async function processImage() {
 
         document.getElementById("result").innerText =
             "Detection Complete ✅";
+
+        // 🟢 Show tomato counts on webpage
+        document.getElementById("classificationResult").innerText =
+            `Good Tomatoes: ${good} | Bad Tomatoes: ${bad}`;
 
     } catch (error) {
 

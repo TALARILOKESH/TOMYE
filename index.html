@@ -1,39 +1,29 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>Tomato Sorting System</title>
-
-<link rel="stylesheet" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-
-</head>
-
 <body>
 
 <h1>🍅 Tomato Sorting System</h1>
 
 <input type="file" id="imageInput" accept="image/*">
-
 <button onclick="processImage()">Analyze</button>
 
 <br><br>
 
-<img id="preview" width="300" style="display:none;">
+<h2>Input Image</h2>
+<img id="preview" width="350" style="display:none; border:1px solid #ccc;">
+
+<br><br>
+
+<h2>Detected Image</h2>
+<img id="resultImage" width="500" style="display:none; border:1px solid #ccc;">
 
 <br><br>
 
 <h3 id="result"></h3>
 
-<img id="resultImage" width="500" style="display:none; margin-top:20px;">
-
-<br><br>
-
-<h3 id="classificationResult"></h3>
+<h2>Tomato Count</h2>
+<p id="classificationResult">
+Good Tomatoes: 0 | Bad Tomatoes: 0
+</p>
 
 <script src="script.js"></script>
 
 </body>
-</html>
